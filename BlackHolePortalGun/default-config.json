@@ -1,3 +1,6 @@
 {
-	"enabled": true
+	"enabled": true,
+	"settings": {
+		"Black Hole Gun Range": 10000.0
+	}
 }

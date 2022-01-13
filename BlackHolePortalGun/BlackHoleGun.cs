@@ -12,6 +12,8 @@ namespace BlackHolePortalGun
         PlayerBody player;
         public PortalGun gun = new PortalGun();
 
+        public float range = 10000f;
+
         private void Awake()
         {
             // You won't be able to access OWML's mod helper in Awake.
@@ -50,7 +52,7 @@ namespace BlackHolePortalGun
                 Vector3 fwd = transform.TransformDirection(Vector3.forward);
 
 
-                if (Physics.Raycast(Locator.GetActiveCamera().transform.position, fwd, 10000f))
+                if (Physics.Raycast(Locator.GetActiveCamera().transform.position, fwd, range))
                 {
                     PlaceObjectRaycast(BlackPortalButton);
                 }
@@ -83,7 +85,7 @@ namespace BlackHolePortalGun
 
             Vector3 forward = Locator.GetPlayerCamera().transform.forward;
 
-            if (Physics.Raycast(Locator.GetPlayerCamera().transform.position, forward, out RaycastHit hit, 10000f, OWLayerMask.physicalMask | OWLayerMask.interactMask))
+            if (Physics.Raycast(Locator.GetPlayerCamera().transform.position, forward, out RaycastHit hit, range, OWLayerMask.physicalMask | OWLayerMask.interactMask))
             {
                 placeNormal = hit.normal;
                 placePoint = hit.point - forward;
@@ -93,6 +95,10 @@ namespace BlackHolePortalGun
             return false;
         }
 
+        public override void Configure(IModConfig config)
+        {
+            this.range = config.GetSettingsValue<float>("Black Hole Gun Range");
+        }
     }
    }
 
