@@ -1,13 +1,7 @@
 ﻿using OWML.ModHelper;
 using OWML.Common;
 using UnityEngine;
-using UnityEngine.PostProcessing;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BlackHolePortalGun
 {
@@ -28,14 +22,13 @@ namespace BlackHolePortalGun
         private void Start()
         {
             // Starting here, you'll have access to OWML's mod helper.
-            ModHelper.Console.WriteLine($"My mod {nameof(BlackHolePortalGun)} is loaded!", MessageType.Success);
+            ModHelper.Console.WriteLine($"Mod {nameof(BlackHolePortalGun)} is loaded!", MessageType.Success);
 
             LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
             {
                 if (loadScene != OWScene.SolarSystem) return;
                 player = FindObjectOfType<PlayerBody>();
                 gun.setLogger(ModHelper);
-                ModHelper.Console.WriteLine($"Found player body, and it's called {player.name}!", MessageType.Success);
             };
         }
         private void Update()
