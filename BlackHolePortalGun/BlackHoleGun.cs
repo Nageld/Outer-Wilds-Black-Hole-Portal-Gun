@@ -53,11 +53,9 @@ namespace BlackHolePortalGun
 
             if (BlackPortalButton || WhitePortalButton)
             {
-                ModHelper.Console.WriteLine($"TEST {player.name}!", MessageType.Success);
 
                 Vector3 fwd = transform.TransformDirection(Vector3.forward);
 
-                ModHelper.Console.WriteLine($"Player Position {player.GetPosition()}");
 
                 if (Physics.Raycast(Locator.GetActiveCamera().transform.position, fwd, 10000f))
                 {

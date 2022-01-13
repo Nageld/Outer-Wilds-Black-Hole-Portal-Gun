@@ -40,7 +40,6 @@ namespace BlackHolePortalGun
             }
 
             Sector sector = Locator._playerSectorDetector._sectorList[0];
-            UnityEngine.Object.Destroy(hole2);
             hole2 = MakeWhiteHole(sector, targetRigidbody, 1f, hole1);
             place_object(normal, point, hole2, targetRigidbody);
 
@@ -167,16 +166,6 @@ namespace BlackHolePortalGun
             whiteHoleVolume.enabled = true;
             whiteHoleFluidVolume.enabled = false;
 
-           /* var zeroGVolume = GameObject.Instantiate(GameObject.Find("WhiteHole_Body/ZeroGVolume"), whiteHole.transform);
-            zeroGVolume.name = "ZeroGVolume";
-            zeroGVolume.GetComponent<SphereCollider>().radius = size * 1f;
-            zeroGVolume.GetComponent<ZeroGVolume>()._attachedBody = OWRB;
-           */
-            var rulesetVolume = GameObject.Instantiate(GameObject.Find("WhiteHole_Body/Sector_WhiteHole/RulesetVolumes_WhiteHole"), sector.transform);
-            rulesetVolume.name = "RulesetVolume";
-            rulesetVolume.transform.localPosition = Vector3.zero;
-            rulesetVolume.transform.localScale = Vector3.one * size / 100f;
-            rulesetVolume.GetComponent<SphereShape>().enabled = true;
 
             return whiteHole;
         }
