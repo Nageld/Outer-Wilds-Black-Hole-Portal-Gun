@@ -2,6 +2,8 @@
 using OWML.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System;
 
 namespace BlackHolePortalGun
 {
@@ -25,7 +27,7 @@ namespace BlackHolePortalGun
         {
             // Starting here, you'll have access to OWML's mod helper.
             ModHelper.Console.WriteLine($"Mod {nameof(BlackHolePortalGun)} is loaded!", MessageType.Success);
-
+            ModHelper.HarmonyHelper.AddPrefix<WhiteHoleVolume>("Awake", typeof(BlackHolePortalGun), "OnWhiteHoleVolumeAwake");
             LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
             {
                 if (loadScene != OWScene.SolarSystem) return;
@@ -99,6 +101,22 @@ namespace BlackHolePortalGun
         {
             this.range = config.GetSettingsValue<float>("Black Hole Gun Range");
         }
+
+        public static bool OnWhiteHoleVolumeAwake(WhiteHoleVolume __instance)
+        {
+            __instance._growQueue = new List<OWRigidbody>(8);
+            __instance._growQueueLocationData = new List<RelativeLocationData>(8);
+            __instance._ejectedBodyList = new List<OWRigidbody>(64);
+            try
+            {
+                __instance._whiteHoleBody = __instance.gameObject.GetAttachedOWRigidbody(false);
+                __instance._whiteHoleProxyShadowSuperGroup = __instance._whiteHoleBody.GetComponentInChildren<ProxyShadowCasterSuperGroup>();
+                __instance._fluidVolume = __instance.gameObject.GetRequiredComponent<WhiteHoleFluidVolume>();
+            }
+            catch (Exception) { }
+            return false;
+        }
+
     }
    }
 

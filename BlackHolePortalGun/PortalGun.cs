@@ -33,7 +33,7 @@ namespace BlackHolePortalGun
             }
 
             Sector sector = Locator._playerSectorDetector._sectorList[0];
-            hole2 = MakeWhiteHole(sector, targetRigidbody, 1f, hole1);
+            hole2 = MakeWhiteHole(sector, targetRigidbody, 1f);
             place_object(normal, point, hole2, targetRigidbody);
 
             if (hole1)
@@ -100,7 +100,7 @@ namespace BlackHolePortalGun
             return blackHole;
         }
 
-        private GameObject MakeWhiteHole(Sector sector, OWRigidbody OWRB, float size, GameObject entryhole)
+        private GameObject MakeWhiteHole(Sector sector, OWRigidbody OWRB, float size )
         {
             var whiteHole = new GameObject("WhiteHole");
             whiteHole.SetActive(false);
