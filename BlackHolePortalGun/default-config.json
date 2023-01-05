@@ -1,6 +1,9 @@
 {
 	"enabled": true,
 	"settings": {
-		"Black Hole Gun Range": 10000.0
+		"Black Hole Gun Range": 10000.0,
+		"Black Hole": "B",
+		"White Hole": "G",
+		"Remove Holes": "C"
 	}
 }

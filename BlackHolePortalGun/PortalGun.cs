@@ -14,7 +14,7 @@ namespace BlackHolePortalGun
         {
             if (hole1)
             {
-                UnityEngine.Object.Destroy(hole1);
+                Object.Destroy(hole1);
             }
 
             hole1 = MakeBlackHole(1f, targetRigidbody);
@@ -29,7 +29,7 @@ namespace BlackHolePortalGun
         {
             if (hole2)
             {
-                UnityEngine.Object.Destroy(hole2);
+                Object.Destroy(hole2);
             }
 
             Sector sector = Locator._playerSectorDetector._sectorList[0];
@@ -40,6 +40,14 @@ namespace BlackHolePortalGun
             {
                 connect_portals();
             }
+        }
+
+        public void clear_portals()
+        {
+            if (hole1)
+                Object.Destroy(hole1);
+            if (hole2)
+                Object.Destroy(hole2);
         }
 
         public void place_object(Vector3 normal, Vector3 point, GameObject gameObject, OWRigidbody targetRigidbody)
@@ -158,7 +166,6 @@ namespace BlackHolePortalGun
 
             whiteHoleVolume.enabled = true;
             whiteHoleFluidVolume.enabled = false;
-
 
             return whiteHole;
         }

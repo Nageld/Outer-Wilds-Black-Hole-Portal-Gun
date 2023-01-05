@@ -9,13 +9,14 @@ namespace BlackHolePortalGun
 {
     public class BlackHolePortalGun : ModBehaviour
     {
-        public bool BlackPortalButton = false;
-        public bool WhitePortalButton = false;
-        PlayerBody player;
+        public bool BlackPortalButton;
+        public bool WhitePortalButton;
         public PortalGun gun = new PortalGun();
 
         public float range = 10000f;
-
+        public Key Black;
+        public Key White;
+        public Key Clear;
         private void Awake()
         {
             // You won't be able to access OWML's mod helper in Awake.
@@ -31,7 +32,6 @@ namespace BlackHolePortalGun
             LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
             {
                 if (loadScene != OWScene.SolarSystem) return;
-                player = FindObjectOfType<PlayerBody>();
                 gun.setLogger(ModHelper);
             };
         }
@@ -39,13 +39,8 @@ namespace BlackHolePortalGun
         {
             if (!OWInput.IsInputMode(InputMode.Menu))
             {
-                BlackPortalButton = Keyboard.current[Key.B].wasReleasedThisFrame;
-                WhitePortalButton = Keyboard.current[Key.G].wasReleasedThisFrame;
-                // Don't check this if we are in the signalscope with multiple frequencies available or if we have the probe launcher equiped but not in the ship (same button as change freq/photo mode)
-                var flag1 = (Locator.GetToolModeSwapper().GetToolMode() == ToolMode.SignalScope) && PlayerData.KnowsMultipleFrequencies();
-                var flag2 = (Locator.GetToolModeSwapper().GetToolMode() == ToolMode.Probe && !PlayerState.AtFlightConsole());
-                if (!flag1 && !flag2)
-                    BlackPortalButton |= OWInput.IsNewlyReleased(InputLibrary.toolOptionRight);
+                BlackPortalButton = Keyboard.current[Black].wasPressedThisFrame;;
+                WhitePortalButton = Keyboard.current[White].wasReleasedThisFrame;
             }
 
             if (BlackPortalButton || WhitePortalButton)
@@ -58,8 +53,9 @@ namespace BlackHolePortalGun
                 {
                     PlaceObjectRaycast(BlackPortalButton);
                 }
-
             }
+            if (Keyboard.current[Clear].wasReleasedThisFrame)
+                gun.clear_portals();
         }
 
 
@@ -100,6 +96,9 @@ namespace BlackHolePortalGun
         public override void Configure(IModConfig config)
         {
             this.range = config.GetSettingsValue<float>("Black Hole Gun Range");
+            Black = (Key) System.Enum.Parse(typeof(Key), config.GetSettingsValue<string>("Black Hole")) ;
+            White = (Key) System.Enum.Parse(typeof(Key), config.GetSettingsValue<string>("White Hole")) ;
+            Clear = (Key) System.Enum.Parse(typeof(Key), config.GetSettingsValue<string>("Remove Holes")) ;
         }
 
         public static bool OnWhiteHoleVolumeAwake(WhiteHoleVolume __instance)
